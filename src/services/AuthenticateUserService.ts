@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import User from '../models/User';
-//import authConfig from '../config/auth';
+import authConfig from '../config/auth';
 //import AppError from '../erros/AppError';
 
 interface RequestDTO {
@@ -33,11 +33,11 @@ export default class AuthenticateUserService {
       throw new Error('Email/Password does not match.');
     }
 
-    //const { secret, expiresIn } = authConfig.jwt;
+    const { secret, expiresIn } = authConfig.jwt;
 
-    const token = sign({}, 'ae6706a21c86cc7ab1fa6e6e44c1a21c', {
+    const token = sign({}, secret, {
      subject: user.id,
-     expiresIn: '1d'
+     expiresIn
    });
 
     return {
