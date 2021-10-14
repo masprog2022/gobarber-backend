@@ -3,7 +3,7 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import User from '../models/User';
 import authConfig from '../config/auth';
-//import AppError from '../erros/AppError';
+import AppError from '../errors/AppError';
 
 interface RequestDTO {
   email: string;
@@ -24,13 +24,13 @@ export default class AuthenticateUserService {
     });
 
     if (!user) {
-      throw new Error('Email/Password does not match.');
+      throw new AppError('Email/Password does not match.', 401);
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw new Error('Email/Password does not match.');
+      throw new AppError('Email/Password does not match.', 401);
     }
 
     const { secret, expiresIn } = authConfig.jwt;
