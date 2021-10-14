@@ -18,7 +18,7 @@ const upload = multer(uploadConfig);
 // Rota POST
 usersRouter.post('/', async (request, response) => {
 
-  try {
+
     const { name, email, password } = request.body;
 
     const createUser = new CreateUserService();
@@ -33,18 +33,13 @@ usersRouter.post('/', async (request, response) => {
 
     return response.json(user);
 
-  } catch (err) {
-    return response.status(400).json({ Error: (err as Error).message });
-  }
+
 });
 
 // Rota PATCH
 usersRouter.patch('/avatar',ensureAuthenticated,
 upload.single('avatar'),
 async (request, response) => {
-
-  try {
-     // console.log(request.file);
 
 
   const updateUserAvatar = new UpdateUserAvatarService();
@@ -59,9 +54,7 @@ async (request, response) => {
 
   return response.json(user);
 
-  }catch(err){
-    response.status(400).json({error: (err as Error).message})
-  }
+
 
   }
 );
