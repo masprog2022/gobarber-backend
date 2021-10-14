@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity('users')
+
 class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
