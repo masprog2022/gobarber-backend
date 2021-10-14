@@ -1,8 +1,17 @@
 import { Router } from 'express';
 
+import multer from 'multer';
+
+import uploadConfig from '../config/upload';
+
 import CreateUserService from '../services/CreateUserService';
 
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+
 const usersRouter = Router();
+const upload = multer(uploadConfig);
+
+//usersRouter.use(ensureAuthenticated);
 
 // Rota POST
 usersRouter.post('/', async (request, response) => {
@@ -26,5 +35,24 @@ usersRouter.post('/', async (request, response) => {
     return response.status(400).json({ Error: (err as Error).message });
   }
 });
+
+// Rota PATCH
+usersRouter.patch('/avatar',ensureAuthenticated,
+upload.single('avatar'),
+async (request, response) => {
+
+  console.log(request.file);
+    //const updateUserAvatar = new UpdateUserAvatarService();
+
+    //const user = await updateUserAvatar.execute({
+     // user_id: request.user.id,
+     // avatarFilename: request.file.filename,
+   // });
+
+   // delete user.password;
+
+    return response.json({ok: true});
+  },
+);
 
 export default usersRouter;
