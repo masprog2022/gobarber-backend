@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
-//import { sign } from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 import User from '../models/User';
 //import authConfig from '../config/auth';
 //import AppError from '../erros/AppError';
@@ -12,7 +12,7 @@ interface RequestDTO {
 
 interface Response {
   user: User;
-  //token: string;
+  token: string;
 }
 
 export default class AuthenticateUserService {
@@ -35,14 +35,14 @@ export default class AuthenticateUserService {
 
     //const { secret, expiresIn } = authConfig.jwt;
 
-    //const token = sign({}, secret, {
-     // subject: user.id,
-     // expiresIn,
-   // });
+    const token = sign({}, 'ae6706a21c86cc7ab1fa6e6e44c1a21c', {
+     subject: user.id,
+     expiresIn: '1d'
+   });
 
     return {
-      user
-     //token,
+      user,
+      token,
     };
   }
 }
